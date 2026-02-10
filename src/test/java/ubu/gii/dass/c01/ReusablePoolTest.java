@@ -14,7 +14,10 @@ import org.junit.jupiter.api.Disabled;
 
 
 /**
- * @author alumno
+ * @authors Sandra Romero Núñez (srn1002@alu.ubu.es)
+ *			Rodrigo Pascual Arnaiz (rpa1004@alu.ubu.es)
+ *			Maksim Pitinov (mpx1019@alu.ubu.es)
+ *			Rubén Alonso Quintana Rubén Alonso Quintana (raq1002@alu.ubu.es)
  *
  */
 public class ReusablePoolTest {
