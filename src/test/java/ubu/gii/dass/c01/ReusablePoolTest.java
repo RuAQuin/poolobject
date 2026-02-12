@@ -3,6 +3,7 @@
  */
 package ubu.gii.dass.c01;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Disabled;
 
 
 
@@ -62,6 +62,7 @@ public class ReusablePoolTest {
 	public void testAcquireReusable() throws NotFreeInstanceException {
 		//Creación de la instancia
 		ReusablePool instance = ReusablePool.getInstance();
+    	assertNotNull(instance, "La instancia no es nula.");
 		
 		//Creación del primer Reusable
 		Reusable reusable1 = instance.acquireReusable();
@@ -78,11 +79,23 @@ public class ReusablePoolTest {
 
 	/**
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#releaseReusable(ubu.gii.dass.c01.Reusable)}.
+	 * @throws NotFreeInstanceException 
 	 */
 	@Test
         @DisplayName("testReleaseReusable")
-        @Disabled("Not implemented yet")
-	public void testReleaseReusable() {
+	public void testReleaseReusable() throws NotFreeInstanceException {
+		//Creación de la instancia
+		ReusablePool instance = ReusablePool.getInstance();
+    	assertNotNull(instance, "La instancia no es nula.");
+		
+		//Creación del Reusable
+		Reusable reusable = instance.acquireReusable();
+		assertNotNull(reusable, "El primer Reusable no debe ser nulo.");
+		
+		//Se libera un objeto reusable del pool.
+		assertDoesNotThrow(() -> {
+			instance.releaseReusable(reusable);
+		}, "Se debe liberar el objeto sin lanzar ninguna excepción.");
 		
 	}
 
