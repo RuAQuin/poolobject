@@ -4,6 +4,7 @@
 package ubu.gii.dass.c01;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -53,12 +54,25 @@ public class ReusablePoolTest {
 
 	/**
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#acquireReusable()}.
+	 * @throws NotFreeInstanceException 
 	 */
 	@Test
         @DisplayName("testAcquireReusable")
-        @Disabled("Not implemented yet")
 
-	public void testAcquireReusable() {
+	public void testAcquireReusable() throws NotFreeInstanceException {
+		//Creación de la instancia
+		ReusablePool instance = ReusablePool.getInstance();
+		
+		//Creación del primer Reusable
+		Reusable reusable1 = instance.acquireReusable();
+		assertNotNull(reusable1, "El primer Reusable no debe ser nulo.");
+		
+		//Creación del segundo Reusable
+		Reusable reusable2 = instance.acquireReusable();
+		assertNotNull(reusable2, "El segundo Reusable no debe ser nulo.");
+		
+		//Verificación de que los objetos Reusables son diferentes
+		assertNotSame(reusable1, reusable2, "Los Reusable deben ser instancias diferentes");
 		
 	}
 
