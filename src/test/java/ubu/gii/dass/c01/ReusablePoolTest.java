@@ -3,8 +3,8 @@
  */
 package ubu.gii.dass.c01;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,10 +37,19 @@ public class ReusablePoolTest {
 	 */
         @Test
         @DisplayName("testGetInstance")
-        @Disabled("Not implemented yet")
 	public void testGetInstance() {
-		
-	}
+        //Creación de instance1
+    	ReusablePool instance1 = ReusablePool.getInstance();
+    	assertNotNull(instance1, "La instancia1 no es nula.");
+    	
+    	//Creación de instance2
+    	ReusablePool instance2 = ReusablePool.getInstance();
+    	assertNotNull(instance2, "La instancia2 no es nula.");
+        	
+    	//getInstance implementa el patrón singleton correctamente
+    	assertSame(instance1, instance2, "Las dos instancias tienen el mismo objeto (Singleton)");
+        			
+	}      
 
 	/**
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#acquireReusable()}.
