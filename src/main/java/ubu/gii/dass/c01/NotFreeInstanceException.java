@@ -10,4 +10,8 @@ public class NotFreeInstanceException extends Exception{
 	public NotFreeInstanceException(){
 		super("No hay más instancias reutilizables disponibles. Reintentalo más tarde");
 	}
+	// Mensaje personalizado
+	public NotFreeInstanceException(String message) {
+	super(message);
+	}
 }
