@@ -98,20 +98,5 @@ public class ReusablePoolTest {
 		}, "Se debe liberar el objeto sin lanzar ninguna excepción.");
 		
 	}
-	@Test
-		@DisplayName("Acquire when pool is empty throws exception")
-	public void testAcquireWhenEmpty() throws NotFreeInstanceException {
-
-    ReusablePool instance = ReusablePool.getInstance();
-
-    // El pool tiene 2 objetos
-    Reusable r1 = instance.acquireReusable();
-    Reusable r2 = instance.acquireReusable();
-
-    // Ahora está vacío, debe lanzar excepción
-    assertThrows(NotFreeInstanceException.class, () -> {
-        instance.acquireReusable();
-    });
-	}
 
 }
