@@ -41,7 +41,7 @@ public final class ReusablePool{
 			return r;			
 		}
 		else{
-			throw(new NotFreeInstanceException());
+			throw new NotFreeInstanceException();
 		}
 
 	}
