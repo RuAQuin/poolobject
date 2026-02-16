@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -98,5 +99,21 @@ public class ReusablePoolTest {
 		}, "Se debe liberar el objeto sin lanzar ninguna excepción.");
 		
 	}
+
+	/**
+     * Test para comprobar que salta la excepción al pedir más objetos de los que hay
+     */
+    @Test
+    	@DisplayName("testReusableThrowsNotFreeInstanceException")
+    public void testReusableThrowsNotFreeInstanceException() {
+        ReusablePool instance = ReusablePool.getInstance();
+        
+        // Intentamos obtener objetos hasta agotar el pull (se lanza excepción)
+        assertThrows(NotFreeInstanceException.class, () -> {
+            while (true) {
+                instance.acquireReusable();
+            }
+        }, "Debe lanzar NotFreeInstanceException cuando ya no quedan instancias en el pool");
+    }
 
 }
