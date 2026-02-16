@@ -112,12 +112,13 @@ public class ReusablePoolTest {
     public void testReusableThrowsNotFreeInstanceException() {
 		ReusablePool instance = ReusablePool.getInstance();
         List<Reusable> objetosAdquiridos = new ArrayList<>();
-        
+        final int LIMITE_SEGURIDAD = 1000; // Por no ejecutar un while(true)
+
         try {
             // Intentamos obtener objetos hasta agotar el pool y los guardamos en la lista
             assertThrows(NotFreeInstanceException.class, () -> {
-                while (true) {
-                    objetosAdquiridos.add(instance.acquireReusable());
+				for (int i = 0; i < LIMITE_SEGURIDAD; i++) {
+	                objetosAdquiridos.add(instance.acquireReusable());
                 }
             }, "Debe lanzar NotFreeInstanceException cuando ya no quedan instancias en el pool");
             
