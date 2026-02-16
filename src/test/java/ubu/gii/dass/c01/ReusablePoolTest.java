@@ -8,6 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -37,7 +41,7 @@ public class ReusablePoolTest {
 	/**
 	 * Test method for {@link ubu.gii.dass.c01.ReusablePool#getInstance()}.
 	 */
-        @Test
+	@Test
         @DisplayName("testGetInstance")
 	public void testGetInstance() {
         //Creación de instance1
@@ -106,14 +110,27 @@ public class ReusablePoolTest {
     @Test
     	@DisplayName("testReusableThrowsNotFreeInstanceException")
     public void testReusableThrowsNotFreeInstanceException() {
-        ReusablePool instance = ReusablePool.getInstance();
+		ReusablePool instance = ReusablePool.getInstance();
+        List<Reusable> objetosAdquiridos = new ArrayList<>();
         
-        // Intentamos obtener objetos hasta agotar el pull (se lanza excepción)
-        assertThrows(NotFreeInstanceException.class, () -> {
-            while (true) {
-                instance.acquireReusable();
+        try {
+            // Intentamos obtener objetos hasta agotar el pool y los guardamos en la lista
+            assertThrows(NotFreeInstanceException.class, () -> {
+                while (true) {
+                    objetosAdquiridos.add(instance.acquireReusable());
+                }
+            }, "Debe lanzar NotFreeInstanceException cuando ya no quedan instancias en el pool");
+            
+        } finally {
+            // Pase lo que pase, devolvemos todos los objetos al pool para no romper otros tests
+            for (Reusable r : objetosAdquiridos) {
+                try {
+                    instance.releaseReusable(r);
+                } catch (Exception e) {
+                    // Ignorar si falla 
+                }
             }
-        }, "Debe lanzar NotFreeInstanceException cuando ya no quedan instancias en el pool");
+        }
     }
 
 }
