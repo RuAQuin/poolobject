@@ -131,6 +131,9 @@ public class ReusablePoolTest {
                 }
             }
         }
+
+		// Limpiar la coleccion 
+		objetosAdquiridos.clear();
     }
 
 }
