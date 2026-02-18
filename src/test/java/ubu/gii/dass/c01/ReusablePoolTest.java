@@ -136,5 +136,31 @@ public class ReusablePoolTest {
 		// Limpiar la coleccion 
 		objetosAdquiridos.clear();
     }
+    
+	/**
+     * Test para comprobar que al liberar dos veces el mismo objeto Reusable,
+     * el pool detecta el duplicado y lanza la excepción DuplicatedInstanceException.
+	 * @throws Exception 
+     */
+    @Test
+    	@DisplayName("testReleaseReusableDuplicated")
+    void testReleaseReusableDuplicated() throws Exception{
+    	//Creación de la instancia
+    	ReusablePool instance = ReusablePool.getInstance();
+
+    	//Creación del Reusable
+        Reusable reusable = instance.acquireReusable();
+        assertNotNull(reusable, "El Reusable no debe ser nulo.");
+        
+		//Se libera un objeto reusable del pool por primera vez.
+		assertDoesNotThrow(() -> {
+			instance.releaseReusable(reusable);
+		}, "Se debe liberar el objeto la primera vez sin lanzar ninguna excepción.");
+
+        //Segunda liberación del mismo objeto, debe fallar por duplicado
+        assertThrows(DuplicatedInstanceException.class, () -> {
+        	instance.releaseReusable(reusable);
+        }, "Debe lanzar DuplicatedInstanceException si se libera dos veces el mismo objeto");
+    }
 
 }
